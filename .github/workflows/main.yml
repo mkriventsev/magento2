@@ -1,0 +1,34 @@
+name: m2-actions-test
+on: [push]
+
+jobs:
+  magento2-build:
+    runs-on: ubuntu-18.04
+    name: 'm2 unit tests & build'
+    services:
+      mysql:
+        image: docker://mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: magento
+          MYSQL_DATABASE: magento
+        ports:
+          - 3106:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+    - uses: actions/checkout@master  # pulls your repository, M2 src must be in a magento directory
+    - name: 'launch magento2 unit test step'
+      if: always()
+      uses: MAD-I-T/magento-actions@master
+      env:
+        COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+      with:
+        php: '7.1'
+        process: 'unit-test'
+    - name: 'launch magento2 build step'
+      if: always()
+      uses: MAD-I-T/magento-actions@master
+      env:
+        COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+      with:
+        php: '7.1'
+        process: 'build'
