@@ -25,8 +25,11 @@ jobs:
         php: '7.1'
         process: 'build'
     - name: 'show mode magento2'
-      run: bin/magento deploy:mode:show
+      run: magento deploy:mode:show
+      working-directory: ./magento/bin/
     - run: rm -rf <magento_root>/generated/metadata/* <magento_root>/generated/code/* 
-    - run: bin/magento deploy:mode:set developer
+    - run: magento deploy:mode:set developer
+      working-directory: ./magento/bin/
     - name: 'sample data'
-      run: bin/magento sampledata:deploy
+      run: magento sampledata:deploy
+      working-directory: ./magento/bin/
