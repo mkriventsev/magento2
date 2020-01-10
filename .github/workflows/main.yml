@@ -13,8 +13,8 @@ jobs:
         run: ls
         working-directory: magento/bin
       - name: 'depliu'
-        run: deploy:mode:show
-        working-directory: magento/bin
+        run: /bin/magento deploy:mode:show
+        working-directory: magento
       - name: 'show mode magento2'
         run: magento deploy:mode:show
         working-directory: magento/bin
