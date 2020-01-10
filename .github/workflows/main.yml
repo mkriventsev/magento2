@@ -24,7 +24,8 @@ jobs:
       with:
         php: '7.1'
         process: 'build'
-    - uses: bin/magento deploy:mode:show
+    - name: 'shoe mode magento2'
+      uses: bin/magento deploy:mode:show
     - uses: rm -rf <magento_root>/generated/metadata/* <magento_root>/generated/code/* 
     - uses: bin/magento deploy:mode:set developer
     - name: sample data
