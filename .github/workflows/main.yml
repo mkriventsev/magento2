@@ -1,35 +1,20 @@
 name: m2-actions-test
 on: [push]
 
+
 jobs:
-  magento2-build:
-    runs-on: ubuntu-18.04
-    name: 'm2 unit build'
-    services:
-      mysql:
-        image: docker://mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: magento
-          MYSQL_DATABASE: magento
-        ports:
-          - 3106:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+   build:
+
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master  # pulls your repository, M2 src must be in a magento directory
-    - name: 'show mode magento2'
-      run: magento deploy:mode:show
-      working-directory: ./magento/bin
-    - name: 'launch magento2 build step'
-      if: always()
-      uses: MAD-I-T/magento-actions@master
-      env:
-        COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
-      with:
-        php: '7.1'
-        process: 'build'
-    - run: rm -rf magento/generated/metadata/* magento/generated/code/* 
-    - run: bin/magento deploy:mode:set developer
-      working-directory: ./magento
-    - name: 'sample data'
-      run: bin/magento sampledata:deploy
-      working-directory: ./magento
+      - uses: actions/checkout@master
+      - name: 'show mode magento2'
+        run: magento deploy:mode:show
+        working-directory: ./magento/bin
+      - run: rm -rf magento/generated/metadata/* magento/generated/code/* 
+      - run: bin/magento deploy:mode:set developer
+        working-directory: ./magento
+      - name: 'sample data'
+        run: bin/magento sampledata:deploy
+        working-directory: ./magento
