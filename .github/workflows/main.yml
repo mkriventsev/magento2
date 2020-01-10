@@ -4,7 +4,7 @@ on: [push]
 jobs:
   magento2-build:
     runs-on: ubuntu-18.04
-    name: 'm2 unit tests & build'
+    name: 'm2 unit build'
     services:
       mysql:
         image: docker://mysql:5.7
@@ -25,11 +25,11 @@ jobs:
         php: '7.1'
         process: 'build'
     - name: 'show mode magento2'
-      run: magento deploy:mode:show
-      working-directory: ./magento/bin/
-    - run: rm -rf <magento_root>/generated/metadata/* <magento_root>/generated/code/* 
-    - run: magento deploy:mode:set developer
-      working-directory: ./magento/bin/
+      run: bin/magento deploy:mode:show
+      working-directory: ./magento
+    - run: rm -rf magento/generated/metadata/* magento/generated/code/* 
+    - run: bin/magento deploy:mode:set developer
+      working-directory: ./magento
     - name: 'sample data'
-      run: magento sampledata:deploy
-      working-directory: ./magento/bin/
+      run: bin/magento sampledata:deploy
+      working-directory: ./magento
